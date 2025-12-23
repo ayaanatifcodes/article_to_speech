@@ -4,11 +4,10 @@ from gtts import gTTS
 from flask import Flask, request, send_file
 
 app = Flask(__name__)
-def extracted_text():
+def extract_text():
     pdf_File = pdfplumber.open("sample.pdf")
     article_content = []
-
-    for page in pdf_File.pages:
+    for page in pdf_FIle.pages:
         article_text = page.extract_text()
         if article_text:
             article_content.append(article_text)
@@ -16,29 +15,26 @@ def extracted_text():
     return " ".join(article_content)
 
 supported_languages = {
-    "English": "en",
-    "Spanish": "es",
-    "French": "fr",
-    "German": "de",
-    "Italian": "it",
-    "Chinese": "zh-CN",
-    "Japanese": "ja",
-    "Russian": "ru",
-    "Urdu": "ur" ,
-    "Hindi": "hi",
-    "Korean": "ko",
-    "Farsi": "fa"
+    'en': 'English',
+    'es': 'Spanish',
+    'fr': 'French',
+    'de': 'German',
+    'it': 'Italian',
+    'pt': 'Portuguese',
+    'zh-cn': 'Chinese (Simplified)',
+    'ja': 'Japanese',
+    'ko': 'Korean'
 }
 
-@app.route("/tts", methods = ["POST"]) # This tells flask when /tts is requested and when to run function
+@app.route('/tts', methods = ['POST'])
 def text_to_speech():
-    data = request.json
-    language = data.get("language", "English")
-    text = extracted_text()
+    data = request.json()
+    language = data.get('language', 'English')
+    text = extract_text()
+    lang_code = supported_languages.get(language, 'en')
+    tts = gTTS(text = text, lang = lang_code)
+    tts.save("output.mp3")
+    return send_file("output.mp3", as_attachment = True)
 
-    lang_code = Supported_Languages.get(language, "en")
-    tts = gTTS(text=text, lang=lang_code)
-    audio_file = "output.mp3"
-    tts.save(audio_file)
-
-    return send_file(audio_file, as_attachment=True)
+if __name__ == '__main__':
+    app.run(debug = True)
