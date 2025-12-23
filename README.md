@@ -1,4 +1,4 @@
-# Audio-Enhanced Reading Platform
+# Article Text-To_Speech
 
 ## Overview
 I created this project as an **interactive text-to-speech (TTS) system** to make reading on my personal website more engaging, immersive, and accessible. The idea is to allow users to **listen to articles, documents, and other text content** while following along with highlighted words. This creates a seamless audio-visual experience that improves focus, comprehension, and overall engagement with the content.
