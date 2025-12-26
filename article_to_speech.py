@@ -1,5 +1,6 @@
 import os
 import pdfplumber
+import io
 from gtts import gTTS
 from flask import Flask, request, send_file, jsonify
 from pydub import AudioSegment
@@ -16,26 +17,23 @@ def extract_text():
     pdf_File.close()
     return " ".join(article_content)
 
-def add_pauses_between_paragraphs(text, language, slow, pause_duration_ms):
-    paragraphs = [p.strip() for p in text.split('\n') if p.strip()]
-    audio_segments = []
+def add_pauses_between_paragraphs(text, language='en', slow=False, pause_duration_ms=500):
+    paragraphs = [p.strip() for p in text.splitlines() if p.strip()]
+    if not paragraphs:
+        return AudioSegment.silent(duration=0)
     silence = AudioSegment.silent(duration=pause_duration_ms)
-    
-    for i, paragraph in enumerate(paragraphs):
+    segments = []
+    for paragraph in paragraphs:
         tts = gTTS(text=paragraph, lang=language, slow=slow)
-        temp_file = f"temp_para_{i}.mp3"
-        tts.save(temp_file)
-        
-        para_audio = AudioSegment.from_mp3(temp_file)
-        audio_segments.append(para_audio)
-        
-        if i < len(paragraphs) - 1:
-            audio_segments.append(silence)
-        
-        os.remove(temp_file)
-    
-    final_audio = sum(audio_segments)
-    return final_audio
+        mp3_fp = io.BytesIO()
+        tts.write_to_fp(mp3_fp)
+        mp3_fp.seek(0)
+        para_audio = AudioSegment.from_file(mp3_fp, format='mp3')
+        segments.append(para_audio)
+    final = segments[0]
+    for seg in segments[1:]:
+        final = final + silence + seg
+    return final
 
 supported_languages = {
     'en': 'English',
