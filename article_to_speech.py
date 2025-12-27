@@ -17,23 +17,26 @@ def extract_text():
     pdf_File.close()
     return " ".join(article_content)
 
-def add_pauses_between_paragraphs(text, language='en', slow=False, pause_duration_ms=500):
+def add_pauses_between_paragraphs(text, language='en', slow=False, pause_ms=500):
     paragraphs = [p.strip() for p in text.splitlines() if p.strip()]
     if not paragraphs:
         return AudioSegment.silent(duration=0)
-    silence = AudioSegment.silent(duration=pause_duration_ms)
-    segments = []
-    for paragraph in paragraphs:
-        tts = gTTS(text=paragraph, lang=language, slow=slow)
+    
+    silence = AudioSegment.silent(duration=pause_ms)
+    audio_segments = []
+
+    for para in paragraphs:
+        tts = gTTS(text=para, lang=language, slow=slow)
         mp3_fp = io.BytesIO()
         tts.write_to_fp(mp3_fp)
         mp3_fp.seek(0)
-        para_audio = AudioSegment.from_file(mp3_fp, format='mp3')
-        segments.append(para_audio)
-    final = segments[0]
-    for seg in segments[1:]:
-        final = final + silence + seg
-    return final
+        audio_segments.append(AudioSegment.from_file(mp3_fp, format='mp3'))
+
+    final_audio = audio_segments[0]
+    for seg in audio_segments[1:]:
+        final_audio += silence + seg
+
+    return final_audio
 
 supported_languages = {
     'en': 'English',
@@ -74,3 +77,4 @@ def text_to_speech():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
