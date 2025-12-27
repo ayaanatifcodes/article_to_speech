@@ -1,4 +1,4 @@
-# Article Text-To_Speech
+# Article Text-To-Speech
 
 ## Overview
 I created this project as an **interactive text-to-speech (TTS) system** to make reading on my personal website more engaging and obviously more accessible. The idea is to allow users to **listen to our articles** while they cannot physically sit down and read it as a whole. Yes, this is a pretty common thing to do but I wanted to challenge myself and build the feature from scratch and put a bit of my own twist in it.  
