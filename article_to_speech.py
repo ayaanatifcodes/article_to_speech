@@ -19,7 +19,8 @@ def extract_text():
     return " ".join(article_content)
 
 def add_pauses_between_paras(text, language = 'en', slow = False, pause_ms = 500):
-    paragraphs = text.split('\n\n') # '\n\ indicates a new line (when i press enter)
+    # '\n\ indicates a new line (when i press enter)
+    paragraphs = text.split('\n\n') 
     paragraphs = [p.strip() for p in paragraphs if p.strip()]
 
     if not paragraphs:
@@ -83,5 +84,6 @@ supported_languages = {
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
