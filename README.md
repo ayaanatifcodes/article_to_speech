@@ -6,7 +6,7 @@ I created this project as an **interactive text-to-speech (TTS) system** to make
 ## Features
 This feature is designed with user experience and accessibility in mind as I care about both of them more than anything when I am working on any of my projects. Key features include:
 
-- **Multi-Language Support:** As it suggests, ssers can listen to content in different languages. This is perfect as Cosmoyage has users from 130+ countries and I woud love to accomodate them all.
+- **Multi-Language Support:** As it suggests, users can listen to content in different languages. This is perfect as Cosmoyage has users from 130+ countries and I woud love to accomodate them all.
 - **Multiple Voices:** Options for different narration voices to suit preference (most of the voices will be taken from Google's TTS but I will try to add voices from larges LLMs as well).  
 - **Adjustable Speed:** Control playback speed to match reading comfort and make it more accessible to users. 
 - **Word Highlighting:** The current word being spoken is highlighted in real-time, helping users follow along easily and providing them with a autoscroll to make it easier from them to read without having to physically go down the page.
