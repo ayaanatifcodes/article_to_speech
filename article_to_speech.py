@@ -18,26 +18,34 @@ def extract_text():
     return " ".join(article_content)
 
 def add_pauses_between_paragraphs(text, language='en', slow=False, pause_ms=500):
-    paragraphs = [p.strip() for p in text.splitlines() if p.strip()]
+    # Split text into paragraphs
+    paragraphs = text.split('\n\n')
+    paragraphs = [p.strip() for p in paragraphs if p.strip()]
+    
+    # If no text, return empty audio
     if not paragraphs:
         return AudioSegment.silent(duration=0)
     
-    silence = AudioSegment.silent(duration=pause_ms)
-    audio_segments = []
-
-    for para in paragraphs:
+    # Create pause
+    pause = AudioSegment.silent(duration=pause_ms)
+    
+    # Convert first paragraph to audio
+    tts = gTTS(text=paragraphs[0], lang=language, slow=slow)
+    mp3_fp = io.BytesIO()
+    tts.write_to_fp(mp3_fp)
+    mp3_fp.seek(0)
+    final_audio = AudioSegment.from_file(mp3_fp, format='mp3')
+    
+    # Add remaining paragraphs with pauses
+    for para in paragraphs[1:]:
         tts = gTTS(text=para, lang=language, slow=slow)
         mp3_fp = io.BytesIO()
         tts.write_to_fp(mp3_fp)
         mp3_fp.seek(0)
-        audio_segments.append(AudioSegment.from_file(mp3_fp, format='mp3'))
-
-    final_audio = audio_segments[0]
-    for seg in audio_segments[1:]:
-        final_audio += silence + seg
-
+        audio = AudioSegment.from_file(mp3_fp, format='mp3')
+        final_audio = final_audio + pause + audio
+    
     return final_audio
-
 supported_languages = {
     'en': 'English',
     'es': 'Spanish',
@@ -50,8 +58,7 @@ supported_languages = {
     'ko': 'Korean'
 }
 
-@app.route("/tts", methods=["POST"])
-def text_to_speech():
+ def text_to_speech():
     data = request.json
     language = data.get("language", "en")
     pace = data.get("pace", "normal")
@@ -77,3 +84,4 @@ def text_to_speech():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
