@@ -1,7 +1,7 @@
 import os
+from gtts import gTTS
 import pdfplumber
 import io
-from gtts import gTTS
 from flask import Flask, request, send_file, jsonify
 from pydub import AudioSegment
 
@@ -10,6 +10,7 @@ app = Flask(__name__)
 def extract_text():
     pdf_File = pdfplumber.open("sample.pdf")
     article_content = []
+
     for page in pdf_File.pages:
         article_text = page.extract_text()
         if article_text:
@@ -17,15 +18,13 @@ def extract_text():
     pdf_File.close()
     return " ".join(article_content)
 
-def add_pauses_between_paragraphs(text, language='en', slow=False, pause_ms=500):
-    # Split text into paragraphs
-    paragraphs = text.split('\n\n')
+def add_pauses_between_paras(text, language = 'en', slow = False, pause_ms = 500):
+    paragraphs = text.split('\n\n') # '\n\ indicates a new line (when i press enter)
     paragraphs = [p.strip() for p in paragraphs if p.strip()]
-    
-    # If no text, return empty audio
+
     if not paragraphs:
-        return AudioSegment.silent(duration=0)
-    
+        return AudioSegment.silent(duration = 0)
+        
     # Create pause
     pause = AudioSegment.silent(duration=pause_ms)
     
@@ -84,4 +83,5 @@ supported_languages = {
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
