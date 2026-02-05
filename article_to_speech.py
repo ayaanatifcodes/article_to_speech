@@ -16,7 +16,7 @@ def extract_text():  # Function to extract text from a PDF
         if article_text:  # Check if text exists on the page
             article_content.append(article_text)  # Add text to the list
 
-    pdf_File.close()  # Close the PDF file
+    pdf_File.close()  # Close the PDF file to prevent errors
     return " ".join(article_content)  # Combine all page text into a single string
 
 def add_pauses_between_paras(text, language='en', slow=False, pause_ms=500):  # Convert text to speech with pauses
@@ -91,3 +91,4 @@ def text_to_speech():  # API function for text-to-speech
 
 if __name__ == "__main__":  # Check if script is run directly
     app.run(debug=True)  # Start Flask server in debug mode
+
