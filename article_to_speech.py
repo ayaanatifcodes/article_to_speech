@@ -6,7 +6,6 @@ from flask import Flask, request, send_file, jsonify  # Flask components for API
 from pydub import AudioSegment  # Audio processing library for combining and modifying audio
 
 app = Flask(__name__)  # Initialize Flask application
-
 def extract_text():  # Function to extract text from a PDF
     pdf_File = pdfplumber.open("sample.pdf")  # Open the PDF file
     article_content = []  # List to store extracted text from all pages
@@ -91,4 +90,5 @@ def text_to_speech():  # API function for text-to-speech
 
 if __name__ == "__main__":  # Check if script is run directly
     app.run(debug=True)  # Start Flask server in debug mode
+
 
