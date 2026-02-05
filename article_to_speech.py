@@ -26,7 +26,6 @@ def add_pauses_between_paras(text, language='en', slow=False, pause_ms=500):  # 
         return AudioSegment.silent(duration=0)  # Return silent audio
 
     pause = AudioSegment.silent(duration=pause_ms)  # Create silent pause between paragraphs
-
     tts = gTTS(text=paragraphs[0], lang=language, slow=slow)  # Generate speech for first paragraph
     mp3_fp = io.BytesIO()  # Create in-memory byte buffer
     tts.write_to_fp(mp3_fp)  # Write audio data to buffer
@@ -90,5 +89,6 @@ def text_to_speech():  # API function for text-to-speech
 
 if __name__ == "__main__":  # Check if script is run directly
     app.run(debug=True)  # Start Flask server in debug mode
+
 
 
