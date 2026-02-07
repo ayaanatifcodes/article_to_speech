@@ -67,7 +67,6 @@ def text_to_speech():  # API function for text-to-speech
         return jsonify({"error": "Unsupported language"}), 400  # Return error response
 
     text = extract_text()  # Extract text from PDF
-
     audio = add_pauses_between_paras(  # Convert text to speech with pauses
         text=text,
         language=language,
@@ -89,3 +88,4 @@ def text_to_speech():  # API function for text-to-speech
 
 if __name__ == "__main__":  # Check if script is run directly
     app.run(debug=True)  # Start Flask server in debug mode
+
