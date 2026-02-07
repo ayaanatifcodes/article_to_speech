@@ -88,4 +88,3 @@ def text_to_speech():  # API function for text-to-speech
 
 if __name__ == "__main__":  # Check if script is run directly
     app.run(debug=True)  # Start Flask server in debug mode
-
