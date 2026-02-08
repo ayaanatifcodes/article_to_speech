@@ -12,7 +12,7 @@ def extract_text():  # Function to extract text from a PDF
 
     for page in pdf_File.pages:  # Loop through each page in the PDF
         article_text = page.extract_text()  # Extract text from the page
-        if article_text:  # Check if text exists on the page
+        if article_text:  # Check if there is text
             article_content.append(article_text)  # Add text to the list
 
     pdf_File.close()  # Close the PDF file to prevent errors
